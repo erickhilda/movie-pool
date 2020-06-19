@@ -1,74 +1,38 @@
 <template>
   <div class="container">
-    <div>
-      <test />
-      <h1 class="title">
-        tmdb-app
-      </h1>
-      <h2 class="subtitle">
-        A website to display movie from TMDB-api
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="max-w-lg">
+        <div class="block font-bold mb-2 text-center text-gray-700">
+          {{ message }}
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Test from '~/components/Test.vue'
+import { defineComponent, ref } from 'nuxt-composition-api'
 
-export default Vue.extend({
-  components: {
-    Test
+export default defineComponent({
+  setup() {
+    const message = ref('This is a message')
+
+    return {
+      message
+    }
   }
 })
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
 .container {
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
 }
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.base-color {
+  background-color: #032541;
 }
 </style>

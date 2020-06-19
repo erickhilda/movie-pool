@@ -34,7 +34,9 @@ export default {
   buildModules: [
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    // https://github.com/nuxt-community/composition-api
+    'nuxt-composition-api'
   ],
   /*
    ** Nuxt.js modules
