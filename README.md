@@ -6,7 +6,7 @@
 
 a list of to work to have been done for this application
 
-- [ ] login page for user to sign in to the application, and restrict unauthorized user to access home-page.
+- [x] login page for user to sign in to the application, and restrict unauthorized user to access home-page.
 - [ ] Display list of latest movies in the home page.
 - [ ] Add option for user to filter the movies in the home-page.
 - [ ] Add search feature.
