@@ -1,3 +1,10 @@
+require('dotenv').config()
+
+const BASE_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.BASE_URL_PROD
+    : process.env.BASE_URL_DEV
+
 export default {
   mode: 'spa',
   /*
@@ -38,6 +45,9 @@ export default {
     // https://github.com/nuxt-community/composition-api
     'nuxt-composition-api'
   ],
+  http: {
+    baseURL: BASE_URL
+  },
   /*
    ** Nuxt.js modules
    */
