@@ -2,9 +2,15 @@
   <div>
     <app-navbar />
     <template v-if="$fetchState.pending">
-      <content-placeholders>
-        <content-placeholders-text :lines="20" />
-      </content-placeholders>
+      <main class="flex-grow flex justify-center items-center">
+        <div class="mx-auto px-4 sm:px-8 py-2 text-center">
+          <div class="mt-6">
+            <div class="block">
+              ...Loading
+            </div>
+          </div>
+        </div>
+      </main>
     </template>
     <template v-else-if="$fetchState.error">
       <p>Error while fetching posts: {{ $fetchState.error.message }}</p>
