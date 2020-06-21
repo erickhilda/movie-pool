@@ -40,6 +40,61 @@
                 </button>
               </div>
             </div>
+            <div class="flex flex-col sm:flex-row sm:items-center mb-8">
+              <div class="mx-2">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="username"
+                >
+                  Genre
+                </label>
+                <select
+                  v-model="selectedGenre"
+                  class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                >
+                  <option
+                    v-for="genre in genres"
+                    :key="genre.id"
+                    :value="genre.id"
+                  >
+                    {{ genre.name }}
+                  </option>
+                </select>
+              </div>
+              <div class="mx-2">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="username"
+                >
+                  Year
+                </label>
+                <input
+                  v-model="selectedReleaseYear"
+                  class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                  placeholder="2020"
+                />
+              </div>
+              <div class="mx-2">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="username"
+                >
+                  Region
+                </label>
+                <select
+                  v-model="selectedRegion"
+                  class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                >
+                  <option
+                    v-for="region in regionList"
+                    :key="region.code"
+                    :value="region.code"
+                  >
+                    {{ region.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <div class="grid grid-cols-10 gap-4 items-start mt-8 mx-auto px-8">
@@ -64,7 +119,8 @@ import {
   defineComponent,
   useFetch,
   useContext,
-  ref
+  ref,
+  watchEffect
 } from 'nuxt-composition-api'
 import AppNavbar from '~/components/Navbar'
 import AppCard from '~/components/AppCard'
@@ -95,7 +151,42 @@ export default defineComponent({
         )
         .then((movies: any) => movies.results)
     }
-    return { movies, searchMovie, searchInput, genres }
+
+    const selectedGenre = ref('')
+    const selectedReleaseYear = ref('')
+    const selectedRegion = ref('')
+    const regionList = ref([
+      { name: 'Indonesia', code: 'ID' },
+      { name: 'China', code: 'CN' },
+      { name: 'Japan', code: 'JP' },
+      { name: 'America', code: 'AS' }
+    ])
+    const getFilteredMovie = async (genre: any, year: any, region: any) => {
+      movies.value = await $http
+        .$get(
+          `discover/movie?api_key=${process.env.TMDB_KEY}&region=${region}&sort_by=popularity.asc&primary_release_year=${year}&with_genres=${genre}`
+        )
+        .then((movies: any) => movies.results)
+    }
+
+    watchEffect(() => {
+      getFilteredMovie(
+        selectedGenre.value,
+        selectedReleaseYear.value,
+        selectedRegion.value
+      )
+    })
+    return {
+      movies,
+      searchMovie,
+      searchInput,
+      genres,
+      getFilteredMovie,
+      selectedGenre,
+      selectedReleaseYear,
+      selectedRegion,
+      regionList
+    }
   }
 })
 </script>
