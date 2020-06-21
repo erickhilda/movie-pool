@@ -122,30 +122,30 @@ import {
   ref,
   watchEffect
 } from 'nuxt-composition-api'
-import AppNavbar from '~/components/Navbar'
-import AppCard from '~/components/AppCard'
+import AppNavbar from '~/components/Navbar.vue'
+import AppCard from '~/components/AppCard.vue'
 
 export default defineComponent({
   components: { AppNavbar, AppCard },
   setup() {
-    const { $http } = useContext()
+    const { app } = useContext()
 
     const movies = ref([])
     const genres = ref([])
     useFetch(async () => {
-      movies.value = await $http
+      movies.value = await app.$http
         .$get(
           `movie/upcoming?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
         )
         .then((movies: any) => movies.results)
-      genres.value = await $http
+      genres.value = await app.$http
         .$get(`genre/movie/list?api_key=${process.env.TMDB_KEY}&language=en-US`)
         .then((genres: any) => genres.genres)
     })
 
     const searchInput = ref('')
     const searchMovie = async () => {
-      movies.value = await $http
+      movies.value = await app.$http
         .$get(
           `search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${searchInput.value}`
         )
@@ -162,7 +162,7 @@ export default defineComponent({
       { name: 'America', code: 'AS' }
     ])
     const getFilteredMovie = async (genre: any, year: any, region: any) => {
-      movies.value = await $http
+      movies.value = await app.$http
         .$get(
           `discover/movie?api_key=${process.env.TMDB_KEY}&region=${region}&sort_by=popularity.asc&primary_release_year=${year}&with_genres=${genre}`
         )
