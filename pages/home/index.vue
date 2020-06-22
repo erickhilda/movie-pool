@@ -126,6 +126,7 @@ import AppCard from '~/components/AppCard.vue'
 
 export default defineComponent({
   components: { AppNavbar, AppCard },
+  middleware: 'nonauth',
   setup() {
     const { app, env } = useContext()
     const movies = ref([])

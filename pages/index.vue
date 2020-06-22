@@ -66,7 +66,7 @@ export default defineComponent({
       try {
         store.commit('SET_USER', credential)
         store.commit('SET_LOGIN', true)
-        redirect({ path: 'home' })
+        redirect({ name: 'home' })
       } catch (error) {
         console.log(error)
       }

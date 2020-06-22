@@ -39,6 +39,7 @@
       </a> -->
       <button
         class="block bg-red-600 px-3 py-1 rounded-sm text-white font-semibold"
+        @click="onLogout"
       >
         Logout
       </button>
@@ -47,13 +48,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'nuxt-composition-api'
+import { defineComponent, ref, useContext } from 'nuxt-composition-api'
 
 export default defineComponent({
   setup() {
     const isOpen = ref(false)
 
-    return { isOpen }
+    const { redirect, store } = useContext()
+
+    const onLogout = () => {
+      store.commit('SET_USER', null)
+      store.commit('SET_LOGIN', null)
+      redirect({ name: 'index' })
+    }
+
+    return { isOpen, onLogout }
   }
 })
 </script>
