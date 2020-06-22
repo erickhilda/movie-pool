@@ -129,6 +129,7 @@ export default defineComponent({
   components: { AppNavbar, AppCard },
   setup() {
     const { app, env } = useContext()
+    console.log(env)
 
     const movies = ref([])
     const genres = ref([])
