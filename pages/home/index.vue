@@ -1,102 +1,101 @@
 <template>
   <div>
     <app-navbar />
-    <template v-if="$fetchState.pending">
-      <main class="flex-grow flex justify-center items-center">
-        <div class="mx-auto px-4 sm:px-8 py-2 text-center">
-          <div class="mt-6">
-            <div class="block">
-              ...Loading
+    <main class="flex flex-col flex-grow overflow-hidden">
+      <div class="container mx-auto px-6 py-8 h-full flex-grow">
+        <div class="">
+          <div class="flex flex-col sm:flex-row sm:items-center mb-8">
+            <h2 class="text-2xl text-secondary font-bold flex-1">
+              Upcoming Movies
+            </h2>
+            <div class="relative flex-1">
+              <input
+                v-model="searchInput"
+                type="search"
+                name="query"
+                class="p-2 text-gray-700 w-full bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400"
+                placeholder="Search movie"
+              />
+              <button
+                type="submit"
+                class="bg-blue-500 text-white rounded font-lg absolute top-0 right-0 bottom-0 mt-1 mr-1 mb-1 px-3 font-semibold"
+                @click="searchMovie"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row sm:items-center mb-8">
+            <div class="mx-2">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="username"
+              >
+                Genre
+              </label>
+              <select
+                v-model="selectedGenre"
+                class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+              >
+                <option
+                  v-for="genre in genres"
+                  :key="genre.id"
+                  :value="genre.id"
+                >
+                  {{ genre.name }}
+                </option>
+              </select>
+            </div>
+            <div class="mx-2">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="username"
+              >
+                Year
+              </label>
+              <input
+                v-model="selectedReleaseYear"
+                class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+                placeholder="2020"
+              />
+            </div>
+            <div class="mx-2">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="username"
+              >
+                Region
+              </label>
+              <select
+                v-model="selectedRegion"
+                class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
+              >
+                <option
+                  v-for="region in regionList"
+                  :key="region.code"
+                  :value="region.code"
+                >
+                  {{ region.name }}
+                </option>
+              </select>
             </div>
           </div>
         </div>
-      </main>
-    </template>
-    <template v-else-if="$fetchState.error">
-      <p>Error while fetching posts: {{ $fetchState.error.message }}</p>
-    </template>
-    <template v-else>
-      <main class="flex flex-col flex-grow overflow-hidden">
-        <div class="container mx-auto px-6 py-8 h-full flex-grow">
-          <div class="">
-            <div class="flex flex-col sm:flex-row sm:items-center mb-8">
-              <h2 class="text-2xl text-secondary font-bold flex-1">
-                Upcoming Movies
-              </h2>
-              <div class="relative flex-1">
-                <input
-                  v-model="searchInput"
-                  type="search"
-                  name="query"
-                  class="p-2 text-gray-700 w-full bg-white border border-gray-300 rounded-lg focus:outline-none focus:border-gray-400"
-                  placeholder="Search movie"
-                />
-                <button
-                  type="submit"
-                  class="bg-blue-500 text-white rounded font-lg absolute top-0 right-0 bottom-0 mt-1 mr-1 mb-1 px-3 font-semibold"
-                  @click="searchMovie"
-                >
-                  Search
-                </button>
+        <template v-if="$fetchState.pending">
+          <main class="flex-grow flex justify-center items-center">
+            <div class="mx-auto px-4 sm:px-8 py-2 text-center">
+              <div class="mt-6">
+                <div class="block">
+                  ...Loading
+                </div>
               </div>
             </div>
-            <div class="flex flex-col sm:flex-row sm:items-center mb-8">
-              <div class="mx-2">
-                <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  for="username"
-                >
-                  Genre
-                </label>
-                <select
-                  v-model="selectedGenre"
-                  class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
-                >
-                  <option
-                    v-for="genre in genres"
-                    :key="genre.id"
-                    :value="genre.id"
-                  >
-                    {{ genre.name }}
-                  </option>
-                </select>
-              </div>
-              <div class="mx-2">
-                <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  for="username"
-                >
-                  Year
-                </label>
-                <input
-                  v-model="selectedReleaseYear"
-                  class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
-                  placeholder="2020"
-                />
-              </div>
-              <div class="mx-2">
-                <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
-                  for="username"
-                >
-                  Region
-                </label>
-                <select
-                  v-model="selectedRegion"
-                  class="border border-gray-300 rounded-full text-gray-600 px-5 py-1 bg-white hover:border-gray-400 focus:outline-none appearance-none"
-                >
-                  <option
-                    v-for="region in regionList"
-                    :key="region.code"
-                    :value="region.code"
-                  >
-                    {{ region.name }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-
+          </main>
+        </template>
+        <template v-else-if="$fetchState.error">
+          <p>Error while fetching movies: {{ $fetchState.error.message }}</p>
+        </template>
+        <template v-else>
           <div class="grid grid-cols-10 gap-4 items-start mt-8 mx-auto px-8">
             <app-card
               v-for="movie in movies"
@@ -108,9 +107,9 @@
               :release-date="movie.release_date"
             />
           </div>
-        </div>
-      </main>
-    </template>
+        </template>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -129,8 +128,6 @@ export default defineComponent({
   components: { AppNavbar, AppCard },
   setup() {
     const { app, env } = useContext()
-    console.log(env)
-
     const movies = ref([])
     const genres = ref([])
     useFetch(async () => {
@@ -175,6 +172,7 @@ export default defineComponent({
         selectedRegion.value
       )
     })
+
     return {
       movies,
       searchMovie,
