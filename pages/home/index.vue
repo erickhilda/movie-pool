@@ -128,18 +128,16 @@ import AppCard from '~/components/AppCard.vue'
 export default defineComponent({
   components: { AppNavbar, AppCard },
   setup() {
-    const { app } = useContext()
+    const { app, env } = useContext()
 
     const movies = ref([])
     const genres = ref([])
     useFetch(async () => {
       movies.value = await app.$http
-        .$get(
-          `movie/upcoming?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
-        )
+        .$get(`movie/upcoming?api_key=${env.TMDB_KEY}&language=en-US&page=1`)
         .then((movies: any) => movies.results)
       genres.value = await app.$http
-        .$get(`genre/movie/list?api_key=${process.env.TMDB_KEY}&language=en-US`)
+        .$get(`genre/movie/list?api_key=${env.TMDB_KEY}&language=en-US`)
         .then((genres: any) => genres.genres)
     })
 
@@ -147,7 +145,7 @@ export default defineComponent({
     const searchMovie = async () => {
       movies.value = await app.$http
         .$get(
-          `search/movie?api_key=${process.env.TMDB_KEY}&language=en-US&query=${searchInput.value}`
+          `search/movie?api_key=${env.TMDB_KEY}&language=en-US&query=${searchInput.value}`
         )
         .then((movies: any) => movies.results)
     }
